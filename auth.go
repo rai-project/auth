@@ -2,11 +2,21 @@ package auth
 
 import passlib "gopkg.in/hlandau/passlib.v1"
 
-func Hash(plaintext string) (string, error) {
-	return passlib.Hash(plaintext)
+func Hash(username string) (accessKeyHash string, secretKeyHash string, err error) {
+	accessKeyHash, err = passlib.Hash(username + Config.Secret)
+	if err != nil {
+		return
+	}
+	secretKeyHash, err = passlib.Hash(accessKeyHash + Config.Secret)
+	return
 }
 
-func Verify(password, hash string) bool {
-	_, err := passlib.Verify(password, hash)
-	return err == nil
+func Verify(username, accessKeyHash, secretKeyHash string) bool {
+	if _, err := passlib.Verify(accessKeyHash, username+Config.Secret); err != nil {
+		return false
+	}
+	if _, err := passlib.Verify(secretKeyHash, accessKeyHash+Config.Secret); err != nil {
+		return false
+	}
+	return true
 }
