@@ -1,0 +1,7 @@
+{
+    "dependencies": {
+        "gopkg.in/hlandau/passlib.v1": {
+            "branch": "master"
+        }
+    }
+}

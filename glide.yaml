@@ -1,0 +1,4 @@
+package: github.com/rai-project/auth
+import:
+- package: gopkg.in/hlandau/passlib.v1
+  version: ~1.0.9

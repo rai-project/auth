@@ -1,0 +1,38 @@
+{
+    "memo": "",
+    "projects": [
+        {
+            "name": "golang.org/x/crypto",
+            "branch": "master",
+            "revision": "453249f01cfeb54c3d549ddb75ff152ca243f9d8",
+            "packages": [
+                "bcrypt",
+                "scrypt"
+            ]
+        },
+        {
+            "name": "gopkg.in/hlandau/easymetric.v1",
+            "branch": "master",
+            "revision": "1c173222e345c2ba115e0f483821c6da2d3b0fa9",
+            "packages": [
+                "cexp"
+            ]
+        },
+        {
+            "name": "gopkg.in/hlandau/measurable.v1",
+            "branch": "master",
+            "revision": "d96a009bd9bda94dd1294105e67e8c1794e533d3",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "gopkg.in/hlandau/passlib.v1",
+            "branch": "master",
+            "revision": "933f1c3f63ffb0d17de04c3174f875ae683a33cd",
+            "packages": [
+                "."
+            ]
+        }
+    ]
+}
