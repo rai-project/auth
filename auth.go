@@ -12,10 +12,10 @@ func Hash(username string) (accessKeyHash string, secretKeyHash string, err erro
 }
 
 func Verify(username, accessKeyHash, secretKeyHash string) bool {
-	if _, err := passlib.Verify(accessKeyHash, username+Config.Secret); err != nil {
+	if _, err := passlib.Verify(username+Config.Secret, accessKeyHash); err != nil {
 		return false
 	}
-	if _, err := passlib.Verify(secretKeyHash, accessKeyHash+Config.Secret); err != nil {
+	if _, err := passlib.Verify(accessKeyHash+Config.Secret, secretKeyHash); err != nil {
 		return false
 	}
 	return true

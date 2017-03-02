@@ -7,7 +7,7 @@ import (
 )
 
 type authConfig struct {
-	Secret string `json:"secret" config:"app.secret" default:"Hammurabi"`
+	Secret string `json:"secret" config:"app.secret" default:"-secret-"`
 }
 
 var (
