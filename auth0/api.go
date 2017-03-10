@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type Api struct {
@@ -21,9 +22,9 @@ type Options struct {
 
 type Option func(*Options)
 
-func URL(s string) Option {
+func Domain(s string) Option {
 	return func(o *Options) {
-		o.ClientID = s
+		o.Domain = strings.TrimLeft(s, "https://")
 	}
 }
 
@@ -35,7 +36,7 @@ func ClientID(s string) Option {
 
 func ClientSecret(s string) Option {
 	return func(o *Options) {
-		o.ClientID = s
+		o.ClientSecret = s
 	}
 }
 
@@ -47,7 +48,7 @@ func Connection(s string) Option {
 
 func New(iopts ...Option) *Api {
 	opts := Options{
-		Domain:       Config.Domain,
+		Domain:       strings.TrimLeft(Config.Domain, "https://"),
 		ClientID:     Config.ClientID,
 		ClientSecret: Config.ClientSecret,
 		Connection:   Config.Connection,
@@ -130,7 +131,7 @@ func (api *Api) Send(method, endpointUrl string, body interface{}) (*http.Respon
 		return nil, err
 	}
 
-	req, err := http.NewRequest(method, api.options.Domain+endpointUrl, bytes.NewBuffer(jsonStr))
+	req, err := http.NewRequest(method, "https://"+api.options.Domain+endpointUrl, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		return nil, err
 	}
