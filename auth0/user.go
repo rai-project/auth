@@ -8,7 +8,7 @@ import (
 
 func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (*CreateUserResponseData, error) {
 	if len(createUserRequestData.Connection) == 0 {
-		createUserRequestData.Connection = api.DefaultConnection
+		createUserRequestData.Connection = api.options.Connection
 	}
 	result, err := api.Send(http.MethodPost, "/api/v2/users", createUserRequestData)
 	if err != nil {
@@ -41,7 +41,7 @@ func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (*Create
 }
 
 func (api *Api) GetUser(getUserRequestData GetUserRequestData) (*GetUserResponseData, error) {
-	result, err := api.Send(http.MethodGet, "/api/v2/users/"+getUserRequestData.ID, nil)
+	result, err := api.Send(http.MethodGet, "/api/v2/users/"+getUserRequestData.UserID, nil)
 	if err != nil {
 		return nil, err
 	}

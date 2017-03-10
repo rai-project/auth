@@ -11,6 +11,7 @@ type auth0Config struct {
 	Domain       string `json:"domain" config:"auth.domain"`
 	ClientID     string `json:"-" config:"auth.client_id"`
 	ClientSecret string `json:"-" config:"auth.client_secret"`
+	Connection   string `json:"connection" config:"auth.connection" default:"Username-Password-Authentication"`
 }
 
 var (

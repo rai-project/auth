@@ -47,7 +47,7 @@ type Identity struct {
 }
 
 type GetUserRequestData struct {
-	ID string `json:"user_id"`
+	UserID string `json:"user_id"`
 }
 
 type GetUserResponseData struct {
