@@ -4,15 +4,15 @@ import "fmt"
 
 type CreateUserRequestData struct {
 	Connection    string                 `json:"connection"`
-	Email         string                 `json:"email"`
-	Username      string                 `json:"username"`
-	Password      string                 `json:"password"`
-	PhoneNumber   string                 `json:"phone_number"`
-	UserMetadata  map[string]interface{} `json:"user_metadata"`
-	EmailVerified bool                   `json:"email_verified"`
-	VerifyEmail   bool                   `json:"verify_email"`
-	PhoneVerified bool                   `json:"phone_verified"`
-	AppMetadata   map[string]interface{} `json:"app_metadata"`
+	Email         string                 `json:"email,omitempty"`
+	Username      string                 `json:"username,omitempty"`
+	Password      string                 `json:"password,omitempty"`
+	PhoneNumber   string                 `json:"phone_number,omitempty"`
+	UserMetadata  map[string]interface{} `json:"user_metadata,omitempty"`
+	EmailVerified bool                   `json:"email_verified,omitempty"`
+	VerifyEmail   bool                   `json:"verify_email,omitempty"`
+	PhoneVerified bool                   `json:"phone_verified,omitempty"`
+	AppMetadata   map[string]interface{} `json:"app_metadata,omitempty"`
 }
 
 type CreateUserResponseData struct {
@@ -40,10 +40,10 @@ type CreateUserResponseData struct {
 }
 
 type Identity struct {
-	Connection string `json:"connection"`
-	UserID     string `json:"user_id"`
-	Provider   string `json:"provider"`
-	IsSocial   bool   `json:"isSocial"`
+	Connection string `json:"connection,omitempty"`
+	UserID     string `json:"user_id,omitempty"`
+	Provider   string `json:"provider,omitempty"`
+	IsSocial   bool   `json:"isSocial,omitempty"`
 }
 
 type GetUserRequestData struct {

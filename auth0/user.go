@@ -22,7 +22,7 @@ func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (*Create
 		return nil, err
 	}
 
-	if result.StatusCode != http.StatusOK {
+	if result.StatusCode != http.StatusOK && result.StatusCode != http.StatusCreated {
 		errorResponse := ErrorResponse{}
 		err = json.Unmarshal(responseData, &errorResponse)
 		if err != nil {
@@ -86,7 +86,7 @@ func (api *Api) SendVerificationEmail(requestData SendVerificationEmailRequestDa
 		return err
 	}
 
-	if result.StatusCode != http.StatusCreated {
+	if result.StatusCode != http.StatusOK && result.StatusCode != http.StatusCreated {
 		errorResponse := ErrorResponse{}
 		err = json.Unmarshal(responseData, errorResponse)
 		if err != nil {
