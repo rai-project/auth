@@ -7,7 +7,6 @@ import (
 
 	"encoding/base64"
 
-	"github.com/fatih/structs"
 	"github.com/pkg/errors"
 	"github.com/rai-project/auth"
 	"github.com/rai-project/auth/auth0/api"
@@ -54,7 +53,9 @@ func (p *Profile) Create() error {
 			"lastname":  p.Lastname,
 			"email":     p.Email,
 		},
-		AppMetadata:   structs.Map(config.App),
+		AppMetadata: map[string]interface{}{
+			"name": config.App.Name,
+		},
 		EmailVerified: true,
 		VerifyEmail:   false,
 	})
