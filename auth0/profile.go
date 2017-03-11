@@ -1,6 +1,8 @@
 package auth0
 
 import (
+	passlib "gopkg.in/hlandau/passlib.v1"
+
 	"encoding/base64"
 
 	"github.com/fatih/structs"
@@ -13,7 +15,7 @@ import (
 
 type Profile struct {
 	api *api.Api
-	*auth.ProfileBase
+	auth.ProfileBase
 }
 
 func NewProfile(opts ...auth.ProfileOption) (auth.Profile, error) {
@@ -24,7 +26,7 @@ func NewProfile(opts ...auth.ProfileOption) (auth.Profile, error) {
 	auth0API := api.New()
 	return &Profile{
 		api:         auth0API,
-		ProfileBase: p,
+		ProfileBase: *p,
 	}, nil
 }
 
@@ -32,28 +34,42 @@ func (p *Profile) Create() error {
 	if p.Username == "" {
 		return errors.New("username is not set")
 	}
+	if p.Password == "" {
+		s, err := utils.EncryptString(config.App.Secret, p.Username)
+		if err != nil {
+			return err
+		}
+		p.Password = s
+	}
 	user, err := p.api.CreateUser(api.CreateUserRequestData{
-		Username:    p.Username,
-		Email:       p.Email,
+		Username: p.Username,
+		Password: p.Password,
+		Email:    p.Email,
+		UserMetadata: map[string]interface{}{
+			"username":  p.Username,
+			"firstname": p.Firstname,
+			"lastname":  p.Lastname,
+			"email":     p.Email,
+		},
 		AppMetadata: structs.Map(config.App),
 	})
 	if err != nil {
 		return err
 	}
 	p.AccessKey = user.UserID
-	p.SecretKey = p.makeSecretKey()
+	p.SecretKey = base64.StdEncoding.EncodeToString([]byte(p.makeSecretKey()))
 	return nil
 }
 
 func (p *Profile) makeSecretKey() string {
-	s, err := utils.EncryptString(config.App.Secret, p.Username)
+	s, err := passlib.Hash(p.Password + ":::" + p.Username)
 	if err != nil {
 		log.WithError(err).
 			WithField("username", p.Username).
 			Error("unable to create secret key")
 		return ""
 	}
-	return base64.StdEncoding.EncodeToString([]byte(s))
+	return s
 }
 
 func (p *Profile) Verify() (bool, error) {
@@ -66,11 +82,14 @@ func (p *Profile) Verify() (bool, error) {
 	if p.SecretKey == "" {
 		return false, errors.New("secret key is not set")
 	}
-	secretKey := p.makeSecretKey()
-	ep := Profile{ProfileBase: &auth.ProfileBase{Username: p.Username}}
+
+	var ep Profile
+	ep.Username = p.Username
+	ep.Password = p.Password
 	expectedSecretKey := ep.makeSecretKey()
-	if secretKey != expectedSecretKey {
-		return false, errors.New("secret key did not match expected")
+
+	if _, err := passlib.Verify(p.Password+":::"+p.Username, expectedSecretKey); err != nil {
+		return false, errors.Wrap(err, "secret key did not match expected")
 	}
 	res, err := p.api.GetUser(api.GetUserRequestData{UserID: p.AccessKey})
 	if err != nil {

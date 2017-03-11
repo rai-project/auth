@@ -4,48 +4,17 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+
+	"github.com/pkg/errors"
 )
 
-func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (*CreateUserResponseData, error) {
-	if len(createUserRequestData.Connection) == 0 {
-		createUserRequestData.Connection = api.options.Connection
-	}
-	result, err := api.Send(http.MethodPost, "/api/v2/users", createUserRequestData)
+func (api *Api) getUserPage(ipage int) (*UserPage, error) {
+	page := strconv.Itoa(ipage)
+	result, err := api.Send(http.MethodGet, "/api/v2/users?per_page=100&page="+page+"&include_totals=true&search_engine=v2", nil)
 	if err != nil {
 		return nil, err
 	}
-	if result.Body != nil {
-		defer result.Body.Close()
-	}
-	responseData, err := ioutil.ReadAll(result.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	if result.StatusCode != http.StatusOK && result.StatusCode != http.StatusCreated {
-		errorResponse := ErrorResponse{}
-		err = json.Unmarshal(responseData, &errorResponse)
-		if err != nil {
-			return nil, err
-		}
-
-		return nil, errorResponse
-	}
-
-	res := &CreateUserResponseData{}
-	if err = json.Unmarshal(responseData, res); err != nil {
-		return nil, err
-	}
-
-	return res, nil
-}
-
-func (api *Api) GetUser(getUserRequestData GetUserRequestData) (*GetUserResponseData, error) {
-	result, err := api.Send(http.MethodGet, "/api/v2/users/"+getUserRequestData.UserID, nil)
-	if err != nil {
-		return nil, err
-	}
-
 	if result.Body != nil {
 		defer result.Body.Close()
 	}
@@ -64,9 +33,156 @@ func (api *Api) GetUser(getUserRequestData GetUserRequestData) (*GetUserResponse
 		return nil, errorResponse
 	}
 
-	res := &GetUserResponseData{}
+	res := &UserPage{}
 	if err = json.Unmarshal(responseData, res); err != nil {
 		return nil, err
+	}
+
+	return res, nil
+}
+
+func (api *Api) FindUser(username string) (User, error) {
+	if username == "" {
+		return User{}, errors.New("username cannot be empty while attempting to find user")
+	}
+	up, err := api.getUserPage(0)
+	if err != nil {
+		return User{}, err
+	}
+	for _, u := range up.Users {
+		if u.Username == username {
+			return u, nil
+		}
+	}
+	for pageNum := 1; pageNum < up.Length; pageNum++ {
+		up, err = api.getUserPage(pageNum)
+		if err != nil {
+			return User{}, err
+		}
+		for _, u := range up.Users {
+			if u.Username == username {
+				return u, nil
+			}
+		}
+	}
+	return User{}, errors.Errorf("unable to find the user %v", username)
+}
+
+func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, error) {
+	if len(createUserRequestData.Connection) == 0 {
+		createUserRequestData.Connection = api.options.Connection
+	}
+	result, err := api.Send(http.MethodPost, "/api/v2/users", createUserRequestData)
+	if err != nil {
+		return User{}, err
+	}
+	if result.Body != nil {
+		defer result.Body.Close()
+	}
+	responseData, err := ioutil.ReadAll(result.Body)
+	if err != nil {
+		return User{}, err
+	}
+
+	if result.StatusCode == http.StatusBadRequest {
+		user, err := api.FindUser(createUserRequestData.Username)
+		if err != nil {
+			return User{}, err
+		}
+
+		return api.UpdateUser(user.UserID, UpdateUserRequestData{
+			Connection:  createUserRequestData.Connection,
+			AppMetadata: createUserRequestData.AppMetadata,
+			// Email:         createUserRequestData.Email,
+			EmailVerified: createUserRequestData.EmailVerified,
+			Password:      createUserRequestData.Password,
+			PhoneNumber:   createUserRequestData.PhoneNumber,
+			PhoneVerified: createUserRequestData.PhoneVerified,
+			UserMetadata:  createUserRequestData.UserMetadata,
+			VerifyEmail:   createUserRequestData.VerifyEmail,
+		})
+	}
+
+	if result.StatusCode != http.StatusOK && result.StatusCode != http.StatusCreated {
+		errorResponse := ErrorResponse{}
+		err = json.Unmarshal(responseData, &errorResponse)
+		if err != nil {
+			return User{}, err
+		}
+
+		return User{}, errorResponse
+	}
+
+	res := User{}
+	if err = json.Unmarshal(responseData, &res); err != nil {
+		return User{}, err
+	}
+
+	return res, nil
+}
+
+func (api *Api) UpdateUser(userID string, updateUserRequestData UpdateUserRequestData) (User, error) {
+	if len(updateUserRequestData.Connection) == 0 {
+		updateUserRequestData.Connection = api.options.Connection
+	}
+	result, err := api.Send(http.MethodPatch, "/api/v2/users/"+userID, updateUserRequestData)
+	if err != nil {
+		return User{}, err
+	}
+
+	if result.Body != nil {
+		defer result.Body.Close()
+	}
+	responseData, err := ioutil.ReadAll(result.Body)
+	if err != nil {
+		return User{}, err
+	}
+
+	if result.StatusCode != http.StatusOK {
+		errorResponse := ErrorResponse{}
+		err = json.Unmarshal(responseData, &errorResponse)
+		if err != nil {
+			return User{}, err
+		}
+
+		return User{}, errorResponse
+	}
+
+	res := User{}
+	if err = json.Unmarshal(responseData, &res); err != nil {
+		return User{}, err
+	}
+
+	return res, nil
+}
+
+func (api *Api) GetUser(getUserRequestData GetUserRequestData) (User, error) {
+	result, err := api.Send(http.MethodGet, "/api/v2/users/"+getUserRequestData.UserID, nil)
+	if err != nil {
+		return User{}, err
+	}
+
+	if result.Body != nil {
+		defer result.Body.Close()
+	}
+	responseData, err := ioutil.ReadAll(result.Body)
+	if err != nil {
+		return User{}, err
+	}
+
+	if result.StatusCode != http.StatusOK {
+		errorResponse := ErrorResponse{}
+		err = json.Unmarshal(responseData, &errorResponse)
+		if err != nil {
+			return User{}, err
+		}
+
+		return User{}, errorResponse
+	}
+
+	res := User{}
+	if err = json.Unmarshal(responseData, &res); err != nil {
+		return User{}, err
 	}
 
 	return res, nil
