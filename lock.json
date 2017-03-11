@@ -2,6 +2,14 @@
     "memo": "",
     "projects": [
         {
+            "name": "github.com/BurntSushi/toml",
+            "branch": "master",
+            "revision": "99064174e013895bbd9b025c31100bd1d9b590ca",
+            "packages": [
+                "."
+            ]
+        },
+        {
             "name": "github.com/GeertJohan/go-sourcepath",
             "branch": "master",
             "revision": "83e8b8723a9bf39481216e80575f4854c63ece4a",
@@ -12,7 +20,7 @@
         {
             "name": "github.com/Sirupsen/logrus",
             "branch": "master",
-            "revision": "7f4b1adc791766938c29457bed0703fb9134421a",
+            "revision": "1deb2db2a6fff8a35532079061b903c3a25eed52",
             "packages": [
                 ".",
                 "hooks/syslog"
@@ -22,6 +30,14 @@
             "name": "github.com/Unknwon/com",
             "branch": "master",
             "revision": "0db4a625e949e956314d7d1adea9bf82384cc10c",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/facebookgo/stack",
+            "branch": "master",
+            "revision": "751773369052141c013c6e827a71e8f35c07879c",
             "packages": [
                 "."
             ]
@@ -53,7 +69,7 @@
         {
             "name": "github.com/hashicorp/hcl",
             "branch": "master",
-            "revision": "372e8ddaa16fd67e371e9323807d056b799360af",
+            "revision": "630949a3c5fa3c613328e1b8256052cbc2327c9b",
             "packages": [
                 "."
             ]
@@ -109,7 +125,7 @@
         {
             "name": "github.com/pelletier/go-buffruneio",
             "branch": "master",
-            "revision": "df1e16fde7fc330a0ca68167c23bf7ed6ac31d6d",
+            "revision": "c37440a7cf42ac63b919c752ca73a85067e05992",
             "packages": [
                 "."
             ]
@@ -117,7 +133,15 @@
         {
             "name": "github.com/pelletier/go-toml",
             "branch": "master",
-            "revision": "22139eb5469018e7374b3e7ef653de37ffb44f72",
+            "revision": "361678322880708ac144df8575e6f01144ba1404",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/pkg/errors",
+            "branch": "master",
+            "revision": "bfd5150e4e41705ded2129ec33379de1cb90b513",
             "packages": [
                 "."
             ]
@@ -125,7 +149,7 @@
         {
             "name": "github.com/rai-project/config",
             "branch": "master",
-            "revision": "655adcc9cc81726db7ba9d81157c9a028029692a",
+            "revision": "441c961e45feb6c039a69d57b5f58085c8a64cb6",
             "packages": [
                 "."
             ]
@@ -133,7 +157,7 @@
         {
             "name": "github.com/rai-project/godotenv",
             "branch": "master",
-            "revision": "49a98d71a654e5f90239723ae80518a1e234bdd5",
+            "revision": "4eea5d4863542334d540a85cbd0ce558ca30d90c",
             "packages": [
                 "."
             ]
@@ -141,7 +165,15 @@
         {
             "name": "github.com/rai-project/logger",
             "branch": "master",
-            "revision": "03464c07fcdd71ef8f4f86106a93901aa6272de5",
+            "revision": "03818fe07fa7d04ed67bb0a30bba6fa771c216a6",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/rai-project/utils",
+            "branch": "master",
+            "revision": "eacd4205eff4ac13022429ca2ada4e5e4f86ff91",
             "packages": [
                 "."
             ]
@@ -149,7 +181,7 @@
         {
             "name": "github.com/rai-project/vipertags",
             "branch": "master",
-            "revision": "c548926ed2e6b30c7bd8020849e386ea9d4d15c4",
+            "revision": "9c71f81fd78302f0665e1d180c506d26a19f226a",
             "packages": [
                 "."
             ]
@@ -157,7 +189,7 @@
         {
             "name": "github.com/spf13/afero",
             "branch": "master",
-            "revision": "72b31426848c6ef12a7a8e216708cb0d1530f074",
+            "revision": "9be650865eab0c12963d8753212f4f9c66cdcf12",
             "packages": [
                 "."
             ]
@@ -165,7 +197,7 @@
         {
             "name": "github.com/spf13/cast",
             "branch": "master",
-            "revision": "d1139bab1c07d5ad390a65e7305876b3c1a8370b",
+            "revision": "f820543c3592e283e311a60d2a600a664e39f6f7",
             "packages": [
                 "."
             ]
@@ -189,7 +221,7 @@
         {
             "name": "github.com/spf13/viper",
             "branch": "master",
-            "revision": "5ed0fc31f7f453625df314d8e66b9791e8d13003",
+            "revision": "7538d73b4eb9511d85a9f1dfef202eeb8ac260f4",
             "packages": [
                 "."
             ]
@@ -206,7 +238,7 @@
         {
             "name": "golang.org/x/sys",
             "branch": "master",
-            "revision": "075e574b89e4c2d22f2286a7e2b919519c6f3547",
+            "revision": "e4594059fe4cde2daf423055a596c2cd1e6c9adf",
             "packages": [
                 "unix"
             ]
@@ -214,7 +246,7 @@
         {
             "name": "golang.org/x/text",
             "branch": "master",
-            "revision": "85c29909967d7f171f821e7a42e7b7af76fb9598",
+            "revision": "f28f36722d5ef2f9655ad3de1f248e3e52ad5ebd",
             "packages": [
                 "transform",
                 "unicode/norm"
