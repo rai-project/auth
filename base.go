@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"io/ioutil"
 
 	passlib "gopkg.in/hlandau/passlib.v1"
@@ -22,6 +23,7 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 	opts := ProfileOptions{
 		AppSecret:   config.App.Secret,
 		ProfilePath: DefaultProfilePath,
+		Context:     context.Background(),
 	}
 
 	if !com.IsFile(opts.ProfilePath) {
