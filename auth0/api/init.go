@@ -1,4 +1,4 @@
-package auth0
+package api
 
 import (
 	"github.com/Sirupsen/logrus"
@@ -12,6 +12,6 @@ var (
 
 func init() {
 	config.OnInit(func() {
-		log = logger.New().WithField("pkg", "auth/auth0")
+		log = logger.New().WithField("pkg", "auth/auth0/api")
 	})
 }
