@@ -51,7 +51,9 @@ func (p *Profile) Create() error {
 			"lastname":  p.Lastname,
 			"email":     p.Email,
 		},
-		AppMetadata: structs.Map(config.App),
+		AppMetadata:   structs.Map(config.App),
+		EmailVerified: true,
+		VerifyEmail:   false,
 	})
 	if err != nil {
 		return err
