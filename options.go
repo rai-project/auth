@@ -3,16 +3,12 @@ package auth
 import (
 	"context"
 	"strings"
+
+	"github.com/rai-project/model"
 )
 
 type ProfileOptions struct {
-	Firstname   string          `json:"firstname" toml:"firstname,omitempty"`
-	Lastname    string          `json:"lastname" toml:"lastname,omitempty"`
-	Username    string          `json:"username" toml:"username"`
-	Email       string          `json:"email" toml:"email"`
-	AccessKey   string          `json:"access_key" toml:"access_key"`
-	SecretKey   string          `json:"secret_key" toml:"secret_key"`
-	Password    string          `json:"password" toml:"-"`
+	model.User
 	ProfilePath string          `json:"-" toml:"-"`
 	AppSecret   string          `json:"-" toml:"-"`
 	Context     context.Context `json:"-" toml:"-"`
