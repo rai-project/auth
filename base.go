@@ -47,13 +47,13 @@ func Username(s string) ProfileOption {
 
 func Firstname(s string) ProfileOption {
 	return func(o *ProfileOptions) {
-		o.Username = s
+		o.Firstname = s
 	}
 }
 
 func Lastname(s string) ProfileOption {
 	return func(o *ProfileOptions) {
-		o.Username = s
+		o.Lastname = s
 	}
 }
 
@@ -94,17 +94,6 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 		ProfilePath: DefaultProfilePath,
 	}
 
-	for _, o := range iopts {
-		o(&opts)
-	}
-	if opts.Password == "" {
-		s, err := passlib.Hash(opts.AppSecret + ":::" + opts.Username)
-		if err != nil {
-			return nil, err
-		}
-		opts.Password = s
-	}
-
 	if !com.IsFile(opts.ProfilePath) {
 		return nil, errors.Errorf("unable to locate %v. not such file or directory", opts.ProfilePath)
 	}
@@ -119,9 +108,18 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 	if err != nil {
 		return nil, err
 	}
-	if profile.Password == "" {
-		profile.Password = opts.Password
+
+	for _, o := range iopts {
+		o(&profile.ProfileOptions)
 	}
+	if profile.ProfileOptions.Password == "" {
+		s, err := passlib.Hash(opts.AppSecret + ":::" + opts.Username)
+		if err != nil {
+			return nil, err
+		}
+		profile.ProfileOptions.Password = s
+	}
+
 	if profile.Username == "" {
 		return nil, errors.New("username has not been set in auth profile")
 	}

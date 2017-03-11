@@ -51,6 +51,7 @@ type CreateUserRequestData struct {
 	UserMetadata  map[string]interface{} `json:"user_metadata,omitempty"`
 	Username      string                 `json:"username,omitempty"`
 	VerifyEmail   bool                   `json:"verify_email,omitempty"`
+	GivenName     string                 `json:"-"`
 }
 
 type UpdateUserRequestData struct {
@@ -68,6 +69,7 @@ type UpdateUserRequestData struct {
 	VerifyEmail       bool                   `json:"verify_email,omitempty"`
 	VerifyPassword    bool                   `json:"verify_password,omitempty"`
 	VerifyPhoneNumber bool                   `json:"verify_phone_number,omitempty"`
+	GivenName         string                 `json:"-"`
 }
 
 type GetUserRequestData struct {

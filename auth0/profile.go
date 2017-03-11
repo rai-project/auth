@@ -1,6 +1,8 @@
 package auth0
 
 import (
+	"strings"
+
 	passlib "gopkg.in/hlandau/passlib.v1"
 
 	"encoding/base64"
@@ -42,9 +44,10 @@ func (p *Profile) Create() error {
 		p.Password = s
 	}
 	user, err := p.api.CreateUser(api.CreateUserRequestData{
-		Username: p.Username,
-		Password: p.Password,
-		Email:    p.Email,
+		Username:  p.Username,
+		Password:  p.Password,
+		Email:     p.Email,
+		GivenName: strings.TrimSpace(p.Firstname + " " + p.Lastname),
 		UserMetadata: map[string]interface{}{
 			"username":  p.Username,
 			"firstname": p.Firstname,

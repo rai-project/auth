@@ -49,12 +49,7 @@ func (api *Api) FindUser(username string) (User, error) {
 	if err != nil {
 		return User{}, err
 	}
-	for _, u := range up.Users {
-		if u.Username == username {
-			return u, nil
-		}
-	}
-	for pageNum := 1; pageNum < up.Length; pageNum++ {
+	for pageNum := 0; pageNum < up.Length; pageNum++ {
 		up, err = api.getUserPage(pageNum)
 		if err != nil {
 			return User{}, err
@@ -90,17 +85,51 @@ func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, e
 			return User{}, err
 		}
 
-		return api.UpdateUser(user.UserID, UpdateUserRequestData{
-			Connection:  createUserRequestData.Connection,
-			AppMetadata: createUserRequestData.AppMetadata,
-			// Email:         createUserRequestData.Email,
-			EmailVerified: createUserRequestData.EmailVerified,
-			Password:      createUserRequestData.Password,
+		baseRequest := UpdateUserRequestData{
+			Connection:    createUserRequestData.Connection,
+			AppMetadata:   createUserRequestData.AppMetadata,
 			PhoneNumber:   createUserRequestData.PhoneNumber,
 			PhoneVerified: createUserRequestData.PhoneVerified,
 			UserMetadata:  createUserRequestData.UserMetadata,
-			VerifyEmail:   createUserRequestData.VerifyEmail,
-		})
+		}
+		if createUserRequestData.GivenName != "" {
+			baseRequest.UserMetadata["name"] = createUserRequestData.GivenName
+			baseRequest.UserMetadata["given_name"] = createUserRequestData.GivenName
+		}
+
+		if createUserRequestData.Email != "" {
+			req := baseRequest
+			req.Email = createUserRequestData.Email
+			user, err = api.UpdateUser(user.UserID, req)
+			if err != nil {
+				return User{}, err
+			}
+		}
+		if createUserRequestData.VerifyEmail {
+			req := baseRequest
+			req.VerifyEmail = createUserRequestData.VerifyEmail
+			user, err = api.UpdateUser(user.UserID, req)
+			if err != nil {
+				return User{}, err
+			}
+		}
+		if createUserRequestData.EmailVerified {
+			req := baseRequest
+			req.EmailVerified = createUserRequestData.EmailVerified
+			user, err = api.UpdateUser(user.UserID, req)
+			if err != nil {
+				return User{}, err
+			}
+		}
+		if createUserRequestData.Password != "" {
+			req := baseRequest
+			req.Password = createUserRequestData.Password
+			user, err = api.UpdateUser(user.UserID, req)
+			if err != nil {
+				return User{}, err
+			}
+		}
+		return user, nil
 	}
 
 	if result.StatusCode != http.StatusOK && result.StatusCode != http.StatusCreated {
