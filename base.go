@@ -6,6 +6,8 @@ import (
 
 	passlib "gopkg.in/hlandau/passlib.v1"
 
+	"bytes"
+
 	"github.com/BurntSushi/toml"
 	"github.com/Unknwon/com"
 	"github.com/pkg/errors"
@@ -131,6 +133,13 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 
 func (p *ProfileBase) Info() ProfileBase {
 	return *p
+}
+
+func (p ProfileBase) String() string {
+	buf := new(bytes.Buffer)
+	enc := toml.NewEncoder(buf)
+	enc.Encode(p)
+	return buf.String()
 }
 
 func (p *ProfileBase) Options() ProfileOptions {
