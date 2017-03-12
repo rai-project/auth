@@ -53,9 +53,7 @@ func (p *Profile) Create() error {
 			"lastname":  p.Lastname,
 			"email":     p.Email,
 		},
-		AppMetadata: map[string]interface{}{
-			"name": config.App.Name,
-		},
+		AppMetadata:   map[string]interface{}{},
 		EmailVerified: true,
 		VerifyEmail:   false,
 	})

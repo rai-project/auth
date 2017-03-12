@@ -94,7 +94,7 @@ func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, e
 		}
 		if createUserRequestData.GivenName != "" {
 			baseRequest.UserMetadata["name"] = createUserRequestData.GivenName
-			baseRequest.UserMetadata["given_name"] = createUserRequestData.GivenName
+			baseRequest.AppMetadata["name"] = createUserRequestData.GivenName
 		}
 
 		if createUserRequestData.Email != "" {
