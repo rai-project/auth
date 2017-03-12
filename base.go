@@ -5,17 +5,15 @@ import (
 	"io/ioutil"
 
 	passlib "gopkg.in/hlandau/passlib.v1"
+	yaml "gopkg.in/yaml.v2"
 
-	"bytes"
-
-	"github.com/BurntSushi/toml"
 	"github.com/Unknwon/com"
 	"github.com/pkg/errors"
 	"github.com/rai-project/config"
 )
 
 type ProfileBase struct {
-	ProfileOptions `json:"-" toml:"profile"`
+	ProfileOptions `json:"-" toml:"profile" yaml:"profile"`
 }
 
 func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
@@ -36,9 +34,8 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 	profile := &ProfileBase{
 		ProfileOptions: opts,
 	}
-	_, err = toml.Decode(string(buf), profile)
-	if err != nil {
-		return nil, err
+	if err := yaml.Unmarshal(buf, profile); err != nil {
+		return nil, errors.Wrap(err, "unable to unmarshal yaml profile file")
 	}
 
 	for _, o := range iopts {
@@ -66,10 +63,12 @@ func (p *ProfileBase) Info() ProfileBase {
 }
 
 func (p ProfileBase) String() string {
-	buf := new(bytes.Buffer)
-	enc := toml.NewEncoder(buf)
-	enc.Encode(p)
-	return buf.String()
+	buf, err := yaml.Marshal(p)
+	if err != nil {
+		log.WithError(err).Error("unable to marshal profile")
+		return ""
+	}
+	return string(buf)
 }
 
 func (p *ProfileBase) Options() ProfileOptions {

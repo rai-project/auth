@@ -8,10 +8,10 @@ import (
 )
 
 type ProfileOptions struct {
-	model.User
-	ProfilePath string          `json:"-" toml:"-"`
-	AppSecret   string          `json:"-" toml:"-"`
-	Context     context.Context `json:"-" toml:"-"`
+	model.User  `toml:"" yaml:",inline"`
+	ProfilePath string          `json:"-" yaml:"-" toml:"-"`
+	AppSecret   string          `json:"-" yaml:"-" toml:"-"`
+	Context     context.Context `json:"-" yaml:"-" toml:"-"`
 }
 
 type ProfileOption func(*ProfileOptions)
