@@ -2,14 +2,6 @@
     "memo": "",
     "projects": [
         {
-            "name": "github.com/BurntSushi/toml",
-            "branch": "master",
-            "revision": "99064174e013895bbd9b025c31100bd1d9b590ca",
-            "packages": [
-                "."
-            ]
-        },
-        {
             "name": "github.com/GeertJohan/go-sourcepath",
             "branch": "master",
             "revision": "83e8b8723a9bf39481216e80575f4854c63ece4a",
@@ -149,7 +141,7 @@
         {
             "name": "github.com/rai-project/config",
             "branch": "master",
-            "revision": "441c961e45feb6c039a69d57b5f58085c8a64cb6",
+            "revision": "3cdd1d24b21e8735c63a591b04b3decd16138e13",
             "packages": [
                 "."
             ]
@@ -171,9 +163,17 @@
             ]
         },
         {
+            "name": "github.com/rai-project/model",
+            "branch": "master",
+            "revision": "d8b20e5c460c6013dfba741d0ae50835157c84e0",
+            "packages": [
+                "."
+            ]
+        },
+        {
             "name": "github.com/rai-project/utils",
             "branch": "master",
-            "revision": "eacd4205eff4ac13022429ca2ada4e5e4f86ff91",
+            "revision": "7a189b20fc8151d81803e4b3e27bba7e578f2cf4",
             "packages": [
                 "."
             ]
