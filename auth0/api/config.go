@@ -8,13 +8,11 @@ import (
 )
 
 type auth0Config struct {
-	Provider              string `json:"provider" config:"auth.provider"`
-	Domain                string `json:"domain" config:"auth.domain"`
-	ClientID              string `json:"-" config:"auth.client_id"`
-	ClientSecret          string `json:"-" config:"auth.client_secret"`
-	EncryptedClientID     string `json:"-" config:"auth.encrypted_client_id"`
-	EncryptedClientSecret string `json:"-" config:"auth.encrypted_client_secret"`
-	Connection            string `json:"connection" config:"auth.connection" default:"Username-Password-Authentication"`
+	Provider     string `json:"provider" config:"auth.provider"`
+	Domain       string `json:"domain" config:"auth.domain"`
+	ClientID     string `json:"-" config:"auth.client_id"`
+	ClientSecret string `json:"-" config:"auth.client_secret"`
+	Connection   string `json:"connection" config:"auth.connection" default:"Username-Password-Authentication"`
 }
 
 var (
@@ -30,14 +28,14 @@ func (auth0Config) SetDefaults() {
 
 func (a *auth0Config) Read() {
 	vipertags.Fill(a)
-	if a.ClientID == "" && a.EncryptedClientID != "" {
-		s, err := utils.DecryptStringBase64(config.App.Secret, a.EncryptedClientID)
+	if utils.IsEncryptedString(a.ClientID) {
+		s, err := utils.DecryptStringBase64(config.App.Secret, a.ClientID)
 		if err == nil {
 			a.ClientID = s
 		}
 	}
-	if a.ClientSecret == "" && a.EncryptedClientSecret != "" {
-		s, err := utils.DecryptStringBase64(config.App.Secret, a.EncryptedClientSecret)
+	if utils.IsEncryptedString(a.ClientSecret) {
+		s, err := utils.DecryptStringBase64(config.App.Secret, a.ClientSecret)
 		if err == nil {
 			a.ClientSecret = s
 		}
