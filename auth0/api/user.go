@@ -67,6 +67,9 @@ func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, e
 	if len(createUserRequestData.Connection) == 0 {
 		createUserRequestData.Connection = api.options.Connection
 	}
+	if createUserRequestData.GivenName != "" {
+		createUserRequestData.UserMetadata["name"] = createUserRequestData.GivenName
+	}
 	result, err := api.Send(http.MethodPost, "/api/v2/users", createUserRequestData)
 	if err != nil {
 		return User{}, err
