@@ -49,6 +49,6 @@ func init() {
 			return
 		}
 
-		DefaultProfilePath = appName + ".profile"
+		DefaultProfilePath = filepath.Join(homeDir, "."+appName+"_profile")
 	})
 }

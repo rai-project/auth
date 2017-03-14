@@ -25,7 +25,10 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 	}
 
 	if !com.IsFile(opts.ProfilePath) {
-		return nil, errors.Errorf("unable to locate %v. not such file or directory", opts.ProfilePath)
+		err := ioutil.WriteFile(opts.ProfilePath, []byte("profile:"), 0644)
+		if err != nil {
+			return nil, errors.Errorf("unable to locate the profile file %v and then use it. make sure you have appropriate permissions to write to the file and/or folder", opts.ProfilePath)
+		}
 	}
 	buf, err := ioutil.ReadFile(opts.ProfilePath)
 	if err != nil {
