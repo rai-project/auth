@@ -8,12 +8,15 @@ import (
 )
 
 type secretConfig struct {
-	Provider string `json:"provider" config:"auth.provider"`
-	Secret   string `json:"-"`
+	Provider string        `json:"provider" config:"auth.provider"`
+	Secret   string        `json:"-"`
+	done     chan struct{} `json:"-" config:"-"`
 }
 
 var (
-	Config = &secretConfig{}
+	Config = &secretConfig{
+		done: make(chan struct{}),
+	}
 )
 
 func (secretConfig) ConfigName() string {
@@ -21,6 +24,7 @@ func (secretConfig) ConfigName() string {
 }
 
 func (a *secretConfig) SetDefaults() {
+	vipertags.SetDefaults(a)
 	a.Secret = "-secret-"
 }
 
@@ -33,6 +37,10 @@ func (a *secretConfig) Read() {
 	} else if viper.IsSet("auth.secret") {
 		a.Secret = viper.GetString("app.secret")
 	}
+}
+
+func (c secretConfig) Wait() {
+	<-c.done
 }
 
 func (c secretConfig) String() string {

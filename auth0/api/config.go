@@ -8,22 +8,26 @@ import (
 )
 
 type auth0Config struct {
-	Provider     string `json:"provider" config:"auth.provider"`
-	Domain       string `json:"domain" config:"auth.domain"`
-	ClientID     string `json:"-" config:"auth.client_id"`
-	ClientSecret string `json:"-" config:"auth.client_secret"`
-	Connection   string `json:"connection" config:"auth.connection" default:"Username-Password-Authentication"`
+	Provider     string        `json:"provider" config:"auth.provider"`
+	Domain       string        `json:"domain" config:"auth.domain"`
+	ClientID     string        `json:"-" config:"auth.client_id"`
+	ClientSecret string        `json:"-" config:"auth.client_secret"`
+	Connection   string        `json:"connection" config:"auth.connection" default:"Username-Password-Authentication"`
+	done         chan struct{} `json:"-" config:"-"`
 }
 
 var (
-	Config = &auth0Config{}
+	Config = &auth0Config{
+		done: make(chan struct{}),
+	}
 )
 
 func (auth0Config) ConfigName() string {
 	return "Auth0"
 }
 
-func (auth0Config) SetDefaults() {
+func (a *auth0Config) SetDefaults() {
+	vipertags.SetDefaults(a)
 }
 
 func (a *auth0Config) Read() {
@@ -40,6 +44,10 @@ func (a *auth0Config) Read() {
 			a.ClientSecret = s
 		}
 	}
+}
+
+func (c auth0Config) Wait() {
+	<-c.done
 }
 
 func (c auth0Config) String() string {
