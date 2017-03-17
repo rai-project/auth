@@ -52,6 +52,12 @@ func Email(s string) ProfileOption {
 	}
 }
 
+func Affiliation(s string) ProfileOption {
+	return func(o *ProfileOptions) {
+		o.Affiliation = s
+	}
+}
+
 func AccessKey(s string) ProfileOption {
 	return func(o *ProfileOptions) {
 		o.AccessKey = s
