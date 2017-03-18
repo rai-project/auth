@@ -31,6 +31,7 @@ func (a *auth0Config) SetDefaults() {
 }
 
 func (a *auth0Config) Read() {
+	defer close(a.done)
 	vipertags.Fill(a)
 	if utils.IsEncryptedString(a.ClientID) {
 		s, err := utils.DecryptStringBase64(config.App.Secret, a.ClientID)

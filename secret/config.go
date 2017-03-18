@@ -25,16 +25,16 @@ func (secretConfig) ConfigName() string {
 
 func (a *secretConfig) SetDefaults() {
 	vipertags.SetDefaults(a)
-	a.Secret = "-secret-"
 }
 
 func (a *secretConfig) Read() {
+	defer close(a.done)
 	vipertags.Fill(Config)
 	if viper.IsSet("auth.secret") {
 		a.Secret = viper.GetString("auth.secret")
 	} else if config.App.Secret != "" {
 		a.Secret = config.App.Secret
-	} else if viper.IsSet("auth.secret") {
+	} else if viper.IsSet("app.secret") {
 		a.Secret = viper.GetString("app.secret")
 	}
 }
