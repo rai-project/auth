@@ -8,6 +8,7 @@ import (
 	"github.com/rai-project/config"
 )
 
+// DefaultProfilePath ...
 var (
 	DefaultProfilePath string
 )

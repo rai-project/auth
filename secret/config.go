@@ -13,20 +13,24 @@ type secretConfig struct {
 	done     chan struct{} `json:"-" config:"-"`
 }
 
+// Config ...
 var (
 	Config = &secretConfig{
 		done: make(chan struct{}),
 	}
 )
 
+// ConfigName ...
 func (secretConfig) ConfigName() string {
 	return "Secret"
 }
 
+// SetDefaults ...
 func (a *secretConfig) SetDefaults() {
 	vipertags.SetDefaults(a)
 }
 
+// Read ...
 func (a *secretConfig) Read() {
 	defer close(a.done)
 	vipertags.Fill(Config)
@@ -39,14 +43,17 @@ func (a *secretConfig) Read() {
 	}
 }
 
+// Wait ...
 func (c secretConfig) Wait() {
 	<-c.done
 }
 
+// String ...
 func (c secretConfig) String() string {
 	return pp.Sprintln(c)
 }
 
+// Debug ...
 func (c secretConfig) Debug() {
 	log.Debug("Secret Config = ", c)
 }

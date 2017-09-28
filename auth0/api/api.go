@@ -8,11 +8,13 @@ import (
 	"strings"
 )
 
+// Api ...
 type Api struct {
 	token   string
 	options Options
 }
 
+// Options ...
 type Options struct {
 	Domain       string
 	ClientID     string
@@ -20,32 +22,38 @@ type Options struct {
 	Connection   string
 }
 
+// Option ...
 type Option func(*Options)
 
+// Domain ...
 func Domain(s string) Option {
 	return func(o *Options) {
 		o.Domain = strings.TrimLeft(s, "https://")
 	}
 }
 
+// ClientID ...
 func ClientID(s string) Option {
 	return func(o *Options) {
 		o.ClientID = s
 	}
 }
 
+// ClientSecret ...
 func ClientSecret(s string) Option {
 	return func(o *Options) {
 		o.ClientSecret = s
 	}
 }
 
+// Connection ...
 func Connection(s string) Option {
 	return func(o *Options) {
 		o.Connection = s
 	}
 }
 
+// New ...
 func New(iopts ...Option) *Api {
 	opts := Options{
 		Domain:       strings.TrimLeft(Config.Domain, "https://"),
@@ -118,6 +126,7 @@ func (api *Api) getToken() error {
 	return nil
 }
 
+// Send ...
 func (api *Api) Send(method, endpointUrl string, body interface{}) (*http.Response, error) {
 	if api.token == "" {
 		err := api.getToken()
@@ -141,6 +150,7 @@ func (api *Api) Send(method, endpointUrl string, body interface{}) (*http.Respon
 	return http.DefaultClient.Do(req)
 }
 
+// Options ...
 func (api *Api) Options() Options {
 	return api.options
 }

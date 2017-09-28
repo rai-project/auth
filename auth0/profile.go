@@ -14,11 +14,13 @@ import (
 	"github.com/rai-project/utils"
 )
 
+// Profile ...
 type Profile struct {
 	api *api.Api
 	auth.ProfileBase
 }
 
+// NewProfile ...
 func NewProfile(opts ...auth.ProfileOption) (auth.Profile, error) {
 	p, err := auth.NewProfileBase(opts...)
 	if err != nil {
@@ -31,6 +33,7 @@ func NewProfile(opts ...auth.ProfileOption) (auth.Profile, error) {
 	}, nil
 }
 
+// Create ...
 func (p *Profile) Create() error {
 	if p.Username == "" {
 		return errors.New("username is not set")
@@ -79,6 +82,7 @@ func (p *Profile) makeSecretKey() string {
 	return s
 }
 
+// Verify ...
 func (p *Profile) Verify() (bool, error) {
 	if p.Username == "" {
 		return false, errors.New("username is not set")

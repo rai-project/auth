@@ -12,10 +12,12 @@ import (
 	"github.com/rai-project/config"
 )
 
+// ProfileBase ...
 type ProfileBase struct {
 	ProfileOptions `json:"-" toml:"profile" yaml:"profile"`
 }
 
+// NewProfileBase ...
 func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 
 	opts := ProfileOptions{
@@ -61,10 +63,12 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 	return profile, nil
 }
 
+// Info ...
 func (p *ProfileBase) Info() ProfileBase {
 	return *p
 }
 
+// String ...
 func (p ProfileBase) String() string {
 	buf, err := yaml.Marshal(p)
 	if err != nil {
@@ -74,6 +78,7 @@ func (p ProfileBase) String() string {
 	return string(buf)
 }
 
+// Options ...
 func (p *ProfileBase) Options() ProfileOptions {
 	return p.ProfileOptions
 }

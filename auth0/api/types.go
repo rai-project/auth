@@ -2,6 +2,7 @@ package api
 
 import "fmt"
 
+// User ...
 type User struct {
 	Email         string                 `json:"email,omitempty"`
 	EmailVerified bool                   `json:"email_verified,omitempty"`
@@ -26,6 +27,7 @@ type User struct {
 	FamilyName    string                 `json:"family_name,omitempty"`
 }
 
+// Identity ...
 type Identity struct {
 	Connection string `json:"connection,omitempty"`
 	UserID     string `json:"user_id,omitempty"`
@@ -33,6 +35,7 @@ type Identity struct {
 	IsSocial   bool   `json:"isSocial,omitempty"`
 }
 
+// UserPage ...
 type UserPage struct {
 	Start  int    `json:"start"`
 	Limit  int    `json:"limit"`
@@ -40,6 +43,7 @@ type UserPage struct {
 	Users  []User `json:"users"`
 }
 
+// CreateUserRequestData ...
 type CreateUserRequestData struct {
 	AppMetadata   map[string]interface{} `json:"app_metadata,omitempty"`
 	Connection    string                 `json:"connection"`
@@ -54,6 +58,7 @@ type CreateUserRequestData struct {
 	GivenName     string                 `json:"-"`
 }
 
+// UpdateUserRequestData ...
 type UpdateUserRequestData struct {
 	AppMetadata       map[string]interface{} `json:"app_metadata,omitempty"`
 	Blocked           bool                   `json:"blocked,omitempty"`
@@ -72,14 +77,17 @@ type UpdateUserRequestData struct {
 	GivenName         string                 `json:"-"`
 }
 
+// GetUserRequestData ...
 type GetUserRequestData struct {
 	UserID string `json:"user_id"`
 }
 
+// SendVerificationEmailRequestData ...
 type SendVerificationEmailRequestData struct {
 	UserID string `json:"user_id"`
 }
 
+// ErrorResponse ...
 type ErrorResponse struct {
 	StatusCode int    `json:"statusCode"`
 	ErrorTag   string `json:"error"`
@@ -87,6 +95,7 @@ type ErrorResponse struct {
 	ErrorCode  string `json:"errorCode"`
 }
 
+// Error ...
 func (er ErrorResponse) Error() string {
 	return fmt.Sprintf("error code %d: %s", er.StatusCode, er.Message)
 }

@@ -16,20 +16,24 @@ type auth0Config struct {
 	done         chan struct{} `json:"-" config:"-"`
 }
 
+// Config ...
 var (
 	Config = &auth0Config{
 		done: make(chan struct{}),
 	}
 )
 
+// ConfigName ...
 func (auth0Config) ConfigName() string {
 	return "Auth0"
 }
 
+// SetDefaults ...
 func (a *auth0Config) SetDefaults() {
 	vipertags.SetDefaults(a)
 }
 
+// Read ...
 func (a *auth0Config) Read() {
 	defer close(a.done)
 	vipertags.Fill(a)
@@ -47,14 +51,17 @@ func (a *auth0Config) Read() {
 	}
 }
 
+// Wait ...
 func (c auth0Config) Wait() {
 	<-c.done
 }
 
+// String ...
 func (c auth0Config) String() string {
 	return pp.Sprintln(c)
 }
 
+// Debug ...
 func (c auth0Config) Debug() {
 	log.Debug("Auth0 Config = ", c)
 }

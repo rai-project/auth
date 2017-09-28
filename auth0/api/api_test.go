@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// TestCreateUser ...
 func TestCreateUser(t *testing.T) {
 	api := New()
 	assert.NotNil(t, api)
@@ -20,6 +21,7 @@ func TestCreateUser(t *testing.T) {
 	assert.NotEmpty(t, user)
 }
 
+// TestMain ...
 func TestMain(m *testing.M) {
 	config.Init(
 		config.VerboseMode(true),

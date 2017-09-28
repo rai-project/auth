@@ -41,6 +41,7 @@ func (api *Api) getUserPage(ipage int) (*UserPage, error) {
 	return res, nil
 }
 
+// FindUser ...
 func (api *Api) FindUser(username string) (User, error) {
 	if username == "" {
 		return User{}, errors.New("username cannot be empty while attempting to find user")
@@ -63,6 +64,7 @@ func (api *Api) FindUser(username string) (User, error) {
 	return User{}, errors.Errorf("unable to find the user %v", username)
 }
 
+// CreateUser ...
 func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, error) {
 	if len(createUserRequestData.Connection) == 0 {
 		createUserRequestData.Connection = api.options.Connection
@@ -152,6 +154,7 @@ func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, e
 	return res, nil
 }
 
+// UpdateUser ...
 func (api *Api) UpdateUser(userID string, updateUserRequestData UpdateUserRequestData) (User, error) {
 	if len(updateUserRequestData.Connection) == 0 {
 		updateUserRequestData.Connection = api.options.Connection
@@ -187,6 +190,7 @@ func (api *Api) UpdateUser(userID string, updateUserRequestData UpdateUserReques
 	return res, nil
 }
 
+// GetUser ...
 func (api *Api) GetUser(getUserRequestData GetUserRequestData) (User, error) {
 	result, err := api.Send(http.MethodGet, "/api/v2/users/"+getUserRequestData.UserID, nil)
 	if err != nil {
@@ -219,6 +223,7 @@ func (api *Api) GetUser(getUserRequestData GetUserRequestData) (User, error) {
 	return res, nil
 }
 
+// SendVerificationEmail ...
 func (api *Api) SendVerificationEmail(requestData SendVerificationEmailRequestData) error {
 	result, err := api.Send(http.MethodPost, "/api/v2/jobs/post_verification_email", requestData)
 	if err != nil {

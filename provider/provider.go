@@ -9,6 +9,7 @@ import (
 	"github.com/rai-project/auth/secret"
 )
 
+// New ...
 func New(opts ...auth.ProfileOption) (auth.Profile, error) {
 	provider := auth.Provider(strings.ToLower(auth.Config.Provider))
 	switch provider {
