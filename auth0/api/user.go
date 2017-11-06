@@ -64,6 +64,34 @@ func (api *Api) FindUser(username string) (User, error) {
 	return User{}, errors.Errorf("unable to find the user %v", username)
 }
 
+// GetUsersByEmail ...
+func (api *Api) GetUsersByEmail(email string) ([]User, error) {
+	if email == "" {
+		return []User{}, errors.New("email cannot be empty while attempting to find user")
+	}
+
+	result, err := api.Send(http.MethodGet, "/api/v2/users-by-email?email="+email, nil)
+	if err != nil {
+		return []User{}, err
+	}
+	if result.Body != nil {
+		defer result.Body.Close()
+	}
+	responseData, err := ioutil.ReadAll(result.Body)
+	if result.StatusCode != http.StatusOK {
+		errorResponse := ErrorResponse{}
+		err = json.Unmarshal(responseData, &errorResponse)
+		return []User{}, err
+	}
+
+	res := &[]User{}
+	err = json.Unmarshal(responseData, res)
+	if err != nil {
+		return []User{}, err
+	}
+	return *res, nil
+}
+
 // CreateUser ...
 func (api *Api) CreateUser(createUserRequestData CreateUserRequestData) (User, error) {
 	if len(createUserRequestData.Connection) == 0 {

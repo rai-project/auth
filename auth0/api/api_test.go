@@ -26,6 +26,19 @@ func TestCreateUser(t *testing.T) {
 }
 
 // TestGetUser
+func TestGetUsersByEmail(t *testing.T) {
+	api := New()
+	assert.NotNil(t, api)
+
+	email := "foorx2@illinois.edu"
+	user, err := api.GetUsersByEmail(email)
+	assert.NoError(t, err, "could not get user")
+
+	fmt.Println(user)
+
+}
+
+// TestGetUser
 func TestGetUser(t *testing.T) {
 	api := New()
 	assert.NotNil(t, api)
