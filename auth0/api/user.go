@@ -225,7 +225,6 @@ func (api *Api) DeleteUser(userID string) error {
 	if err != nil {
 		return err
 	}
-
 	if result.Body != nil {
 		defer result.Body.Close()
 	}
@@ -234,7 +233,7 @@ func (api *Api) DeleteUser(userID string) error {
 		return err
 	}
 
-	if result.StatusCode != http.StatusOK {
+	if result.StatusCode != http.StatusNoContent {
 		errorResponse := ErrorResponse{}
 		err = json.Unmarshal(responseData, &errorResponse)
 		if err != nil {

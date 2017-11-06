@@ -25,7 +25,7 @@ func TestCreateUser(t *testing.T) {
 	assert.NotEmpty(t, user)
 }
 
-// TestCreateUser ...
+// TestCreateAndDeleteUser ...
 func TestCreateAndDeleteUser(t *testing.T) {
 	api := New()
 	assert.NotNil(t, api)
