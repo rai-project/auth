@@ -47,3 +47,8 @@ func (p *Profile) Verify() (bool, error) {
 	}
 	return Verify(p.Username, p.AccessKey, p.SecretKey)
 }
+
+// GetByEmail ...
+func (p *Profile) GetByEmail() error {
+	return errors.New("unimplemented")
+}

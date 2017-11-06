@@ -15,4 +15,5 @@ type Profile interface {
 	Create() error
 	Verify() (bool, error)
 	Options() ProfileOptions
+	GetByEmail() error
 }
