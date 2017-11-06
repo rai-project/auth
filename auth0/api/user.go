@@ -190,6 +190,35 @@ func (api *Api) UpdateUser(userID string, updateUserRequestData UpdateUserReques
 	return res, nil
 }
 
+// DeleteUser ...
+func (api *Api) DeleteUser(userID string) error {
+
+	result, err := api.Send(http.MethodDelete, "/api/v2/users/"+userID, nil)
+	if err != nil {
+		return err
+	}
+
+	if result.Body != nil {
+		defer result.Body.Close()
+	}
+	responseData, err := ioutil.ReadAll(result.Body)
+	if err != nil {
+		return err
+	}
+
+	if result.StatusCode != http.StatusOK {
+		errorResponse := ErrorResponse{}
+		err = json.Unmarshal(responseData, &errorResponse)
+		if err != nil {
+			return err
+		}
+
+		return errors.New(errorResponse.Message)
+	}
+
+	return nil
+}
+
 // GetUser ...
 func (api *Api) GetUser(getUserRequestData GetUserRequestData) (User, error) {
 	result, err := api.Send(http.MethodGet, "/api/v2/users/"+getUserRequestData.UserID, nil)
