@@ -111,3 +111,31 @@ func (p *Profile) Verify() (bool, error) {
 	}
 	return true, nil
 }
+
+// GetByEmail ...
+func (p *Profile) GetByEmail() error {
+	if p.Email == "" {
+		return errors.New("email is not set")
+	}
+	if p.Password == "" {
+		s, err := utils.EncryptString(config.App.Secret, p.Username)
+		if err != nil {
+			return err
+		}
+		p.Password = s
+	}
+
+	users, err := p.api.GetUsersByEmail(p.Email)
+	if err != nil {
+		return err
+	}
+	if len(users) > 1 {
+		return errors.New("More than one user with that address")
+	}
+
+	user := users[0]
+	p.Username = user.Username
+	p.AccessKey = user.UserID
+	p.SecretKey = base64.StdEncoding.EncodeToString([]byte(p.makeSecretKey()))
+	return nil
+}
