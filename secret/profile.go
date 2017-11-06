@@ -50,5 +50,10 @@ func (p *Profile) Verify() (bool, error) {
 
 // GetByEmail ...
 func (p *Profile) GetByEmail() error {
-	return errors.New("unimplemented")
+	return errors.New("GetByEmail unimplemented")
+}
+
+// Delete ...
+func (p *Profile) Delete() error {
+	return errors.New("Delete unimplemented")
 }

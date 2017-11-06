@@ -13,6 +13,7 @@ const (
 type Profile interface {
 	Info() ProfileBase
 	Create() error
+	Delete() error
 	Verify() (bool, error)
 	Options() ProfileOptions
 	GetByEmail() error

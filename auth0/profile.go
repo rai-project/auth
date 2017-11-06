@@ -139,3 +139,26 @@ func (p *Profile) GetByEmail() error {
 	p.SecretKey = base64.StdEncoding.EncodeToString([]byte(p.makeSecretKey()))
 	return nil
 }
+
+// Delete ...
+func (p *Profile) Delete() error {
+	// Look up the user by email
+	if p.Email != "" {
+		users, err := p.api.GetUsersByEmail(p.Email)
+		if err != nil {
+			return err
+		}
+		if len(users) > 1 {
+			return errors.New("More than one user with email: " + p.Email)
+		}
+		return p.api.DeleteUser(users[0].UserID)
+	} else if p.Username != "" { // look up the user by username
+		user, err := p.api.FindUser(p.Username)
+		if err != nil {
+			return err
+		}
+		return p.api.DeleteUser(user.UserID)
+	} else {
+		return errors.New("Username or email not set")
+	}
+}
