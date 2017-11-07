@@ -38,6 +38,9 @@ func (p *Profile) Create() error {
 	if p.Username == "" {
 		return errors.New("username is not set")
 	}
+	if p.Email == "" {
+		return errors.New("email not set")
+	}
 	if p.Password == "" {
 		s, err := utils.EncryptString(config.App.Secret, p.Username)
 		if err != nil {
@@ -132,6 +135,9 @@ func (p *Profile) GetByEmail() error {
 	if len(users) > 1 {
 		return errors.New("More than one user with that address")
 	}
+	if len(users) == 0 {
+		return errors.New("No users with email " + p.Email)
+	}
 
 	user := users[0]
 	p.Username = user.Username
@@ -144,12 +150,16 @@ func (p *Profile) GetByEmail() error {
 func (p *Profile) Delete() error {
 	// Look up the user by email
 	if p.Email != "" {
+		log.Debug("deleting user via email: " + p.Email)
 		users, err := p.api.GetUsersByEmail(p.Email)
 		if err != nil {
 			return err
 		}
 		if len(users) > 1 {
 			return errors.New("More than one user with email: " + p.Email)
+		}
+		if len(users) == 0 {
+			return errors.New("No user found for email: " + p.Email)
 		}
 		return p.api.DeleteUser(users[0].UserID)
 	} else if p.Username != "" { // look up the user by username

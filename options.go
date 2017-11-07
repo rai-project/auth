@@ -87,3 +87,13 @@ func AppSecret(s string) ProfileOption {
 		o.AppSecret = s
 	}
 }
+
+// TeamName ...
+func TeamName(s string) ProfileOption {
+	return func(o *ProfileOptions) {
+		if o.Team == nil {
+			o.Team = &model.Team{}
+		}
+		o.Team.Name = s
+	}
+}

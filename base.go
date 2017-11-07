@@ -10,6 +10,7 @@ import (
 	"github.com/Unknwon/com"
 	"github.com/pkg/errors"
 	"github.com/rai-project/config"
+	"github.com/rai-project/model"
 )
 
 // ProfileBase ...
@@ -43,6 +44,11 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 		return nil, errors.Wrap(err, "unable to unmarshal yaml profile file")
 	}
 
+	// if .rai_profile doesn't have a team field
+	if profile.Team == nil {
+		profile.Team = &model.Team{}
+	}
+
 	for _, o := range iopts {
 		o(&profile.ProfileOptions)
 	}
@@ -54,12 +60,12 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 		profile.ProfileOptions.Password = s
 	}
 
-	if profile.Username == "" {
-		return nil, errors.New("username has not been set in auth profile")
-	}
-	if profile.Email == "" {
-		return nil, errors.New("email has not been set in auth profile")
-	}
+	// if profile.Username == "" {
+	// 	return nil, errors.New("username has not been set in auth profile")
+	// }
+	// if profile.Email == "" {
+	// 	return nil, errors.New("email has not been set in auth profile")
+	// }
 	return profile, nil
 }
 
