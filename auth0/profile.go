@@ -3,7 +3,7 @@ package auth0
 import (
 	"strings"
 
-	passlib "gopkg.in/hlandau/passlib.v1"
+	passlib "github.com/rai-project/passlib"
 
 	"encoding/base64"
 

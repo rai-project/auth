@@ -4,7 +4,7 @@ import (
 	"context"
 	"io/ioutil"
 
-	passlib "gopkg.in/hlandau/passlib.v1"
+	passlib "github.com/rai-project/passlib"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/Unknwon/com"

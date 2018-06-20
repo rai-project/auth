@@ -2,7 +2,7 @@ package secret
 
 import (
 	"github.com/pkg/errors"
-	passlib "gopkg.in/hlandau/passlib.v1"
+	passlib "github.com/rai-project/passlib"
 )
 
 // Hash ...
