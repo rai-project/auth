@@ -16,7 +16,7 @@ import:
 - package: github.com/rai-project/vipertags
 - package: github.com/spf13/viper
 - package: github.com/rai-project/passlib
-  version: c44f83bd04b14a4d63accc9cfdd411fe164fafcf
+  version: 3ea0fb15f0a8e3313535810aa669f8364ab91c83
 - package: gopkg.in/yaml.v2
 - package: github.com/stretchr/testify
   subpackages:
