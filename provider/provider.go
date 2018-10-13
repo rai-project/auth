@@ -17,6 +17,8 @@ func New(opts ...auth.ProfileOption) (auth.Profile, error) {
 		return auth0.NewProfile(opts...)
 	case auth.SecretProvider:
 		return secret.NewProfile(opts...)
+	case auth.DatabaseProvider:
+
 	default:
 		return nil, errors.Errorf("the auth provider %v specified is not supported", provider)
 	}

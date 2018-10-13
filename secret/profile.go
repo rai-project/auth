@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/rai-project/auth"
+	"github.com/rai-project/model"
 )
 
 // Profile ...
@@ -48,12 +49,19 @@ func (p *Profile) Verify() (bool, error) {
 	return Verify(p.Username, p.AccessKey, p.SecretKey)
 }
 
-// GetByEmail ...
-func (p *Profile) GetByEmail() error {
-	return errors.New("GetByEmail unimplemented")
+func (p *Profile) GetRole() (model.Role, error) {
+	panic("GetRole not implemented")
+	return model.Role(""), nil
+}
+
+// FindByEmail ...
+func (p *Profile) FindByEmail() error {
+	panic("FindByEmail unimplemented")
+	return nil
 }
 
 // Delete ...
 func (p *Profile) Delete() error {
-	return errors.New("Delete unimplemented")
+	panic("Delete unimplemented")
+	return nil
 }

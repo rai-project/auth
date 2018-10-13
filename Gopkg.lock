@@ -519,6 +519,7 @@
     "github.com/rai-project/utils",
     "github.com/rai-project/vipertags",
     "github.com/sirupsen/logrus",
+    "github.com/spf13/cast",
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",
     "gopkg.in/yaml.v2",

@@ -3,7 +3,9 @@ package auth0
 import (
 	"strings"
 
+	"github.com/rai-project/model"
 	passlib "github.com/rai-project/passlib"
+	"github.com/spf13/cast"
 
 	"encoding/base64"
 
@@ -54,10 +56,12 @@ func (p *Profile) Create() error {
 		Email:     p.Email,
 		GivenName: strings.TrimSpace(p.Firstname + " " + p.Lastname),
 		UserMetadata: map[string]interface{}{
-			"username":  p.Username,
-			"firstname": p.Firstname,
-			"lastname":  p.Lastname,
-			"email":     p.Email,
+			"username":    p.Username,
+			"firstname":   p.Firstname,
+			"lastname":    p.Lastname,
+			"email":       p.Email,
+			"role":        string(p.Role),
+			"affiliation": p.Affiliation,
 		},
 		AppMetadata: map[string]interface{}{
 			"app_name": config.App.Name,
@@ -115,8 +119,26 @@ func (p *Profile) Verify() (bool, error) {
 	return true, nil
 }
 
-// GetByEmail ...
-func (p *Profile) GetByEmail() error {
+func (p *Profile) GetRole() (model.Role, error) {
+	if p.Role != "" {
+		return p.Role, nil
+	}
+
+	pr := &Profile{}
+	pr.Email = p.Email
+
+	err := pr.FindByEmail()
+	if err != nil {
+		return model.Role(""), err
+	}
+	if pr.Role == "" {
+		return model.Role(""), errors.New("unable to find your authentication role")
+	}
+	return pr.Role, nil
+}
+
+// FindByEmail ...
+func (p *Profile) FindByEmail() error {
 	if p.Email == "" {
 		return errors.New("email is not set")
 	}
@@ -143,6 +165,11 @@ func (p *Profile) GetByEmail() error {
 	p.Username = user.Username
 	p.AccessKey = user.UserID
 	p.SecretKey = base64.StdEncoding.EncodeToString([]byte(p.makeSecretKey()))
+	if e, ok := user.UserMetadata["role"]; ok {
+		if s := cast.ToString(e); s != "" {
+			p.Role = model.Role(s)
+		}
+	}
 	return nil
 }
 

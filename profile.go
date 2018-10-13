@@ -1,5 +1,7 @@
 package auth
 
+import "github.com/rai-project/model"
+
 // Provider ...
 type Provider string
 
@@ -17,5 +19,6 @@ type Profile interface {
 	Delete() error
 	Verify() (bool, error)
 	Options() ProfileOptions
-	GetByEmail() error
+	GetRole() (model.Role, error)
+	FindByEmail() error
 }
