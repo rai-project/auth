@@ -99,8 +99,8 @@ func TeamName(s string) ProfileOption {
 }
 
 // Role ...
-func Role(s string) ProfileOption {
+func Role(s model.Role) ProfileOption {
 	return func(o *ProfileOptions) {
-		o.Role = strings.ToLower(s)
+		o.Role = s
 	}
 }
