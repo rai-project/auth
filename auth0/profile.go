@@ -57,7 +57,7 @@ func (p *Profile) Create() error {
 		Email:     p.Email,
 		GivenName: strings.TrimSpace(p.Firstname + " " + p.Lastname),
 		UserMetadata: map[string]interface{}{
-			"id":          p.ID.String(),
+			"id":          p.ID.Hex(),
 			"username":    p.Username,
 			"firstname":   p.Firstname,
 			"lastname":    p.Lastname,
@@ -173,7 +173,7 @@ func (p *Profile) FindByEmail() error {
 	p.SecretKey = base64.StdEncoding.EncodeToString([]byte(p.makeSecretKey()))
 	if e, ok := user.UserMetadata["id"]; ok {
 		if s := cast.ToString(e); s != "" {
-			id := bson.ObjectId(s)
+			id := bson.ObjectIdHex(s)
 			if id.Valid() {
 				p.ID = id
 			}
