@@ -97,3 +97,10 @@ func TeamName(s string) ProfileOption {
 		o.Team.Name = s
 	}
 }
+
+// Role ...
+func Role(s string) ProfileOption {
+	return func(o *ProfileOptions) {
+		o.Role = strings.ToLower(s)
+	}
+}

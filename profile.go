@@ -5,8 +5,9 @@ type Provider string
 
 // Auth0Provider ...
 const (
-	Auth0Provider  Provider = "auth0"
-	SecretProvider Provider = "secret"
+	Auth0Provider    Provider = "auth0"
+	DatabaseProvider Provider = "database"
+	SecretProvider   Provider = "secret"
 )
 
 // Profile ...
