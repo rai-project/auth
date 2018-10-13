@@ -267,7 +267,7 @@
   name = "github.com/rai-project/model"
   packages = ["."]
   pruneopts = "UT"
-  revision = "20a5cfd31fff1b55f3017ef0958e237646017c2d"
+  revision = "6a1316c20a407e5a00cff2f3e757fe0a5e83be17"
 
 [[projects]]
   branch = "master"
@@ -510,6 +510,9 @@
   input-imports = [
     "github.com/Unknwon/com",
     "github.com/k0kubun/pp",
+    "github.com/mailru/easyjson",
+    "github.com/mailru/easyjson/jlexer",
+    "github.com/mailru/easyjson/jwriter",
     "github.com/mitchellh/go-homedir",
     "github.com/pkg/errors",
     "github.com/rai-project/config",
@@ -522,6 +525,7 @@
     "github.com/spf13/cast",
     "github.com/spf13/viper",
     "github.com/stretchr/testify/assert",
+    "gopkg.in/mgo.v2/bson",
     "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"
