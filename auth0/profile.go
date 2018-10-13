@@ -6,6 +6,7 @@ import (
 	"github.com/rai-project/model"
 	passlib "github.com/rai-project/passlib"
 	"github.com/spf13/cast"
+	"gopkg.in/mgo.v2/bson"
 
 	"encoding/base64"
 
@@ -56,6 +57,7 @@ func (p *Profile) Create() error {
 		Email:     p.Email,
 		GivenName: strings.TrimSpace(p.Firstname + " " + p.Lastname),
 		UserMetadata: map[string]interface{}{
+			"id":          p.ID.String(),
 			"username":    p.Username,
 			"firstname":   p.Firstname,
 			"lastname":    p.Lastname,
@@ -169,6 +171,14 @@ func (p *Profile) FindByEmail() error {
 	p.Username = user.Username
 	p.AccessKey = user.UserID
 	p.SecretKey = base64.StdEncoding.EncodeToString([]byte(p.makeSecretKey()))
+	if e, ok := user.UserMetadata["id"]; ok {
+		if s := cast.ToString(e); s != "" {
+			id := bson.ObjectId(s)
+			if id.Valid() {
+				p.ID = id
+			}
+		}
+	}
 	if e, ok := user.UserMetadata["role"]; ok {
 		if s := cast.ToString(e); s != "" {
 			p.Role = model.Role(s)
