@@ -124,8 +124,10 @@ func (p *Profile) GetRole() (model.Role, error) {
 		return p.Role, nil
 	}
 
-	pr := &Profile{}
-	pr.Email = p.Email
+	pr, err := NewProfile(auth.Email(p.Email))
+	if err != nil {
+		return p.Role(""), err
+	}
 
 	err := pr.FindByEmail()
 	if err != nil {
