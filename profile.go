@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/rai-project/model"
+import "github.com/rai-project/acl"
 
 // Provider ...
 type Provider string
@@ -19,6 +19,6 @@ type Profile interface {
 	Delete() error
 	Verify() (bool, error)
 	Options() ProfileOptions
-	GetRole() (model.Role, error)
+	GetRole() (acl.Role, error)
 	FindByEmail() error
 }

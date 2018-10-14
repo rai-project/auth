@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/rai-project/acl"
 	"github.com/rai-project/model"
 )
 
@@ -99,7 +100,7 @@ func TeamName(s string) ProfileOption {
 }
 
 // Role ...
-func Role(s model.Role) ProfileOption {
+func Role(s acl.Role) ProfileOption {
 	return func(o *ProfileOptions) {
 		o.Role = s
 	}

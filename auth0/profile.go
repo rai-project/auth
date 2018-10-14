@@ -3,7 +3,7 @@ package auth0
 import (
 	"strings"
 
-	"github.com/rai-project/model"
+	"github.com/rai-project/acl"
 	passlib "github.com/rai-project/passlib"
 	"github.com/spf13/cast"
 	"gopkg.in/mgo.v2/bson"
@@ -121,24 +121,24 @@ func (p *Profile) Verify() (bool, error) {
 	return true, nil
 }
 
-func (p *Profile) GetRole() (model.Role, error) {
+func (p *Profile) GetRole() (acl.Role, error) {
 	if p.Role != "" {
 		return p.Role, nil
 	}
 
 	pr0, err := NewProfile(auth.Email(p.Email))
 	if err != nil {
-		return model.Role(""), err
+		return acl.Role(""), err
 	}
 
 	pr := pr0.(*Profile)
 
 	err = pr.FindByEmail()
 	if err != nil {
-		return model.Role(""), err
+		return acl.Role(""), err
 	}
 	if pr.Role == "" {
-		return model.Role(""), errors.New("unable to find your authentication role")
+		return acl.Role(""), errors.New("unable to find your authentication role")
 	}
 	return pr.Role, nil
 }
@@ -181,7 +181,7 @@ func (p *Profile) FindByEmail() error {
 	}
 	if e, ok := user.UserMetadata["role"]; ok {
 		if s := cast.ToString(e); s != "" {
-			p.Role = model.Role(s)
+			p.Role = acl.Role(s)
 		}
 	}
 	return nil

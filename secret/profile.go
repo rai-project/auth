@@ -3,8 +3,8 @@ package secret
 import (
 	"errors"
 
+	"github.com/rai-project/acl"
 	"github.com/rai-project/auth"
-	"github.com/rai-project/model"
 )
 
 // Profile ...
@@ -49,9 +49,9 @@ func (p *Profile) Verify() (bool, error) {
 	return Verify(p.Username, p.AccessKey, p.SecretKey)
 }
 
-func (p *Profile) GetRole() (model.Role, error) {
+func (p *Profile) GetRole() (acl.Role, error) {
 	panic("GetRole not implemented")
-	return model.Role(""), nil
+	return acl.Role(""), nil
 }
 
 // FindByEmail ...
