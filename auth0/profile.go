@@ -203,13 +203,14 @@ func (p *Profile) Delete() error {
 			return errors.New("No user found for email: " + p.Email)
 		}
 		return p.api.DeleteUser(users[0].UserID)
-	} else if p.Username != "" { // look up the user by username
+	}
+	if p.Username != "" { // look up the user by username
 		user, err := p.api.FindUser(p.Username)
 		if err != nil {
 			return err
 		}
 		return p.api.DeleteUser(user.UserID)
-	} else {
-		return errors.New("Username or email not set")
 	}
+
+	return errors.New("Username or email not set")
 }
