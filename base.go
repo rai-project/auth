@@ -15,7 +15,7 @@ import (
 
 // ProfileBase ...
 type ProfileBase struct {
-	ProfileOptions `json:"-" toml:"profile" yaml:"profile"`
+	ProfileOptions `json:"-" bson:",inline" toml:"profile" yaml:"profile"`
 }
 
 // NewProfileBase ...

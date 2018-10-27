@@ -10,7 +10,7 @@ import (
 
 // ProfileOptions ...
 type ProfileOptions struct {
-	model.User  `toml:"" yaml:",inline"`
+	model.User  `toml:"" yaml:",inline" bson:",inline"`
 	ProfilePath string          `json:"-" yaml:"-" toml:"-"`
 	AppSecret   string          `json:"-" yaml:"-" toml:"-"`
 	Context     context.Context `json:"-" yaml:"-" toml:"-"`

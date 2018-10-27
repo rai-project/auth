@@ -19,8 +19,8 @@ import (
 
 // Profile ...
 type Profile struct {
-	api *api.Api
-	auth.ProfileBase
+	api              *api.Api
+	auth.ProfileBase `json:",inline" bson:",inline"`
 }
 
 // NewProfile ...
