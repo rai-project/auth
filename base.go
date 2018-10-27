@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 
 	passlib "github.com/rai-project/passlib"
+	"gopkg.in/mgo.v2/bson"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/Unknwon/com"
@@ -59,6 +60,8 @@ func NewProfileBase(iopts ...ProfileOption) (*ProfileBase, error) {
 		}
 		profile.ProfileOptions.Password = s
 	}
+
+	profile.ID = bson.NewObjectId()
 
 	// if profile.Username == "" {
 	// 	return nil, errors.New("username has not been set in auth profile")
