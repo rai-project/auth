@@ -1,0 +1,57 @@
+module github.com/rai-project/auth
+
+go 1.12
+
+require (
+	github.com/GeertJohan/go-sourcepath v0.0.0-20150925135350-83e8b8723a9b
+	github.com/Unknwon/com v0.0.0-20151008135407-28b053d5a292
+	github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6
+	github.com/coreos/etcd v3.3.12+incompatible
+	github.com/coreos/go-semver v0.2.0
+	github.com/davecgh/go-spew v1.1.1
+	github.com/dustin/go-humanize v1.0.0
+	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052
+	github.com/fatih/color v1.7.0
+	github.com/fatih/structs v1.1.0
+	github.com/fsnotify/fsnotify v1.4.7
+	github.com/go-playground/locales v0.12.1
+	github.com/go-playground/universal-translator v0.16.0
+	github.com/hashicorp/hcl v1.0.0
+	github.com/k0kubun/pp v2.4.0+incompatible
+	github.com/konsorten/go-windows-terminal-sequences v1.0.2
+	github.com/leodido/go-urn v1.1.0
+	github.com/magiconair/properties v1.8.0
+	github.com/mailru/easyjson v0.0.0-20190312143242-1de009706dbe
+	github.com/mattn/go-colorable v0.0.9
+	github.com/mattn/go-isatty v0.0.7
+	github.com/mitchellh/go-homedir v1.1.0
+	github.com/mitchellh/mapstructure v1.1.2
+	github.com/pelletier/go-toml v1.2.0
+	github.com/pkg/errors v0.8.1
+	github.com/pmezard/go-difflib v1.0.0
+	github.com/rai-project/acl v0.0.0-20181119122707-037e0eb4d746
+	github.com/rai-project/config v0.0.0-20181119122707-4d0de45fe6c1
+	github.com/rai-project/godotenv v0.0.0-20180908223441-72ca456a35f4
+	github.com/rai-project/logger v0.0.0-20181119115247-3edfaed4af1c
+	github.com/rai-project/model v0.0.0-20181119123731-66be2e1deaae
+	github.com/rai-project/passlib v0.0.0-20181013114510-cdf39dc0b8ea
+	github.com/rai-project/utils v0.0.0-20181119122706-be23e9dad62b
+	github.com/rai-project/vipertags v0.0.0-20181119122706-8cbaab517f5d
+	github.com/sirupsen/logrus v1.4.0
+	github.com/spf13/afero v1.2.1
+	github.com/spf13/cast v1.3.0
+	github.com/spf13/jwalterweatherman v1.1.0
+	github.com/spf13/pflag v1.0.3
+	github.com/spf13/viper v1.3.2
+	github.com/stretchr/testify v1.3.0
+	github.com/ugorji/go v1.1.2
+	github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77
+	golang.org/x/crypto v0.0.0-20190313024323-a1f597ede03a
+	golang.org/x/sys v0.0.0-20190316082340-a2f829d7f35f
+	golang.org/x/text v0.3.0
+	gopkg.in/go-playground/validator.v9 v9.27.0
+	gopkg.in/hlandau/easymetric.v1 v1.0.0
+	gopkg.in/hlandau/measurable.v1 v1.0.1
+	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce
+	gopkg.in/yaml.v2 v2.2.2
+)
