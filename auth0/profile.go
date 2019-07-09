@@ -102,6 +102,9 @@ func (p *Profile) Verify() (bool, error) {
 	if p.SecretKey == "" {
 		return false, errors.New("secret key is not set")
 	}
+	if p.AppSecret == "" {
+		return false, errors.New("app secret is not set")
+	}
 
 	var ep Profile
 	ep.Username = p.Username
